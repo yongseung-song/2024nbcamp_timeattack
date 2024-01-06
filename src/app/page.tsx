@@ -1,3 +1,9 @@
+import Link from 'next/link';
+
 export default function Home() {
-  return <main>hi</main>;
+  return (
+    <main>
+      <Link href={'/signin'}>Sign in</Link>
+    </main>
+  );
 }

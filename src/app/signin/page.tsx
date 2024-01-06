@@ -1,10 +1,10 @@
-import Form from './Form';
+import SigninForm from './SigninForm';
 
 const Signin = () => {
   return (
     <div>
-      <div>Sign in!</div>
-      <Form />
+      <div className="my-10 mx-auto text-center">로그인</div>
+      <SigninForm />
     </div>
   );
 };
