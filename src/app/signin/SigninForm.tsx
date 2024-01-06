@@ -2,6 +2,7 @@
 
 import { useLoginUser } from '@/hooks/authHooks';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 const PASSWORD_PATTERN =
@@ -13,8 +14,8 @@ type Inputs = {
   password: string;
 };
 const SigninForm = () => {
+  const dispatch = useDispatch();
   const { login } = useLoginUser();
-  // const { data, error, isError } = useFetchUser(ACCESS_TOKEN);
   const {
     register,
     handleSubmit,
@@ -23,10 +24,10 @@ const SigninForm = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSigninSubmit: SubmitHandler<Inputs> = (data) => {
     const { email: id, password } = data;
     const credentials = { id, password };
-    login(credentials);
+    login(credentials, dispatch);
     resetField('email');
     resetField('password');
   };
@@ -34,10 +35,8 @@ const SigninForm = () => {
     // console.log(data);
   };
 
-  // console.log(watch('email'));
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSigninSubmit)}>
       <div>
         <input
           {...register('email', {
@@ -68,7 +67,6 @@ const SigninForm = () => {
       </div>
 
       <input type="submit" value={'로그인'} />
-      <button onClick={validate} value={'확인'} />
     </form>
   );
 };

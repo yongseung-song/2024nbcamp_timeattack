@@ -1,11 +1,14 @@
 'use client';
 
 import clientInstance from '@/api/api';
+import { setCredentials } from '@/store/authSlice';
+import { AppDispatch } from '@/store/store';
 import { User } from '@/types/auth.types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const useFetchUser = () => {
+  const accessToken = localStorage.getItem('accessToken');
   const { data, error, isError } = useQuery({
     queryKey: ['auth', localStorage.getItem('accessToken')],
     queryFn: () => fetchUser(localStorage.getItem('accessToken')!),
@@ -57,10 +60,16 @@ const createUser = async (user: User): Promise<void> => {
     console.error(error);
   }
 };
-const loginUser = async (credentials: Pick<User, 'id' | 'password'>) => {
+const loginUser = async (
+  credentials: Pick<User, 'id' | 'password'>,
+  dispatch: AppDispatch
+) => {
   try {
     const { data, status } = await clientInstance.post('/login', credentials);
-    console.log(JSON.parse(data));
+    localStorage.setItem('accessToken', data.accessToken);
+    dispatch(
+      setCredentials({ accessToken: data.accessToken, user: data.user })
+    );
   } catch (error) {
     console.error(error);
   }

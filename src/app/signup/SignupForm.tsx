@@ -23,7 +23,7 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onChange' });
 
-  const onSigninSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSignUpSubmit: SubmitHandler<Inputs> = (data) => {
     const { email, password, nickname } = data;
     const newUser: User = {
       id: email,
@@ -39,7 +39,7 @@ const SignupForm = () => {
   // console.log(watch('email'));
 
   return (
-    <form onSubmit={handleSubmit(onSigninSubmit)}>
+    <form onSubmit={handleSubmit(onSignUpSubmit)}>
       <div>
         <input
           {...register('nickname', {
